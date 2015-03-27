@@ -245,7 +245,10 @@ public class Environment {
 			g.setColor(Color.white);
 			g.fillRect(renderArea.x,renderArea.y,renderArea.width,renderArea.height);
 		}
-	
+		
+		for (Agent a : inhabitants) {
+			a.draw(g, renderArea);
+		}
 	}
 	
 }
