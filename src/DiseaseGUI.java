@@ -1,19 +1,17 @@
-import java.awt.BorderLayout;
-import java.awt.Button;
 import java.awt.Canvas;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
-import java.awt.Graphics2D;
-import java.awt.GridLayout;
-import java.awt.Label;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
 import java.awt.Rectangle;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.EventObject;
 
+import javax.swing.JButton;
 import javax.swing.JComponent;
 import javax.swing.JFrame;
-import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextArea;
 import javax.swing.Timer;
@@ -53,12 +51,28 @@ public class DiseaseGUI extends JPanel implements ActionListener{
 	private static Timer displayTimer = null;
 	
 	public static World theWorld;
+	
+	private JButton start = new JButton("START");
+	private JButton stop = new JButton("STOP");
+	private JButton reset = new JButton("RESET");
+	private JTextArea delay = new JTextArea();
+	
 	/**
 	 * default constructor
 	 */
 	public DiseaseGUI(){
+		this.setLayout(new GridBagLayout());
+		theWorld = new World(50, 50, 3600.0, 0.5, 2);
+		//add one or more infected agents
+		Environment groundZero = World.getRandomLocation();
+		Disease newInfection = new Disease("ACGT");
+		Human patientZero = new Human(groundZero.getRow(), groundZero.getColumn());
+		patientZero.recieveDisease(newInfection.getStrain());
+		groundZero.enter(patientZero);
 		
 		canvas = new Canvas(){
+			private static final long serialVersionUID = 1L;
+
 			//private Rectangle test = new Rectangle(50,50);
 			public void paint (Graphics g)
 			{
@@ -72,24 +86,128 @@ public class DiseaseGUI extends JPanel implements ActionListener{
 				
 			}
 		};
-		canvas.setPreferredSize(getMaximumSize());
-		add(canvas, BorderLayout.SOUTH);
 		
+		listener = new ActionListener() {
+			public void actionPerformed(ActionEvent event) {
+				displayTimer.stop();
+				// advance the time'
+				theWorld.tick();
+				int infectionCount = theWorld.countInfections();
+				if (event.getActionCommand().equals("stop")) {
+					System.out.println("Simluation Stopping");
+					displayTimer.stop();
+				} else if (infectionCount <= 0) {
+					displayTimer.stop();
+					System.out.println("Simulation finished");
+				} else {
+					canvas.repaint();
+					System.out.println("time: " + World.getTime().getTime()
+							+ "number of infections: " + infectionCount);
+					displayTimer.restart();
+				}
+
+			}
+		};
 		
+	
+		
+		//making a smaller window for now
+		canvas.setPreferredSize(new Dimension(800,800));
+		
+		GridBagConstraints c = new GridBagConstraints();
+		c.fill = GridBagConstraints.HORIZONTAL;
+		c.anchor = GridBagConstraints.NORTHWEST;
+		c.weightx = 0.9;
+		c.weighty = 1;
+		c.gridx = 0;
+		c.gridy = 0;
+		c.gridheight = 5;
+		add(canvas, c );
+		
+		c.weighty = 0;
+		c.weightx = 0.1;
+		c.gridheight = 1;
+		c.gridx = 1;
+		c.gridy = 0;
+		add(start, c);
+		start.setActionCommand("start");
+		start.addActionListener(this);
+		
+		c.gridy = 1;
+		add(stop, c);
+		stop.setActionCommand("stop");
+		stop.addActionListener(this);
+		listener = new ActionListener() {
+			public void actionPerformed(ActionEvent event) {
+				displayTimer.stop();
+				// advance the time'
+				theWorld.tick();
+				int infectionCount = theWorld.countInfections();
+				if (infectionCount <= 0) {
+					displayTimer.stop();
+					System.out.println("Simulation finished");
+				} else {
+					canvas.repaint();
+					System.out.println("time: " + World.getTime().getTime()
+							+ "number of infections: " + infectionCount);
+					displayTimer.restart();
+				}
+
+			}
+		};
+		displayTimer = new Timer(1000, listener);
+		displayTimer.start();
+		c.gridy = 2;
+		add(reset, c);
+		reset.setActionCommand("reset");
+		reset.addActionListener(this);
 
 	}
-
+	
 	@Override
 	/**
 	 * a handler method for any gui events.. not currently used
 	 */
 	public void actionPerformed(ActionEvent e) {
+		
 		if(e.getActionCommand() == "any")
 		{
 			System.out.println("something happened!");
-						
 		}
-		
+		if (e.getActionCommand() == "start") {
+			displayTimer.start();
+		}
+		if (e.getActionCommand().equals("stop")) {
+			
+			displayTimer.stop();
+			System.out.println("Simluation Stopping");
+		}
+		if (e.getActionCommand().equals("reset")) {
+			displayTimer.stop();
+			displayTimer.removeActionListener(listener);
+			theWorld = new World(50, 50, 3600.0, 0.5, 2);
+			listener = new ActionListener() {
+				public void actionPerformed(ActionEvent event) {
+					displayTimer.stop();
+					// advance the time'
+					theWorld.tick();
+					int infectionCount = theWorld.countInfections();
+					if (infectionCount <= 0) {
+						displayTimer.stop();
+						System.out.println("Simulation finished");
+					} else {
+						canvas.repaint();
+						System.out.println("time: " + World.getTime().getTime()
+								+ "number of infections: " + infectionCount);
+						displayTimer.restart();
+					}
+
+				}
+			};
+			displayTimer = new Timer(1000, listener);
+			displayTimer.start();
+			System.out.println("Resetting Simulation");
+		}
 	}
 	
 	/**
@@ -119,39 +237,6 @@ public class DiseaseGUI extends JPanel implements ActionListener{
                 createAndShowGUI();
             }
         });
-        
-        theWorld = new World(50, 50, 3600.0, 0.5, 2);
-		//add one or more infected agents
-		Environment groundZero = World.getRandomLocation();
-		Disease newInfection = new Disease("ACGT");
-		Human patientZero = new Human(groundZero.getRow(), groundZero.getColumn());
-		patientZero.recieveDisease(newInfection.getStrain());
-		groundZero.enter(patientZero);
-		
-        listener = new ActionListener(){
-        	  public void actionPerformed(ActionEvent event){
-        		displayTimer.stop();
-        		//advance the time'
-	      		theWorld.tick();
-        		int infectionCount = theWorld.countInfections();
-    			if(infectionCount <= 0)
-    			{
-    				displayTimer.stop();
-    				System.out.println("Simulation finished");
-    			}
-    			else
-    			{
-    				canvas.repaint();
-    				System.out.println("time: " + World.getTime().getTime() + "number of infections: " + infectionCount);
-    				displayTimer.restart();
-	      			
-    			}
-        	  }
-        };
-        displayTimer = new Timer(1000, listener);
-    	displayTimer.start();
-
-        
 	}
 	
 	/**
@@ -173,6 +258,4 @@ public class DiseaseGUI extends JPanel implements ActionListener{
         frame.pack();
         frame.setVisible(true);
     }
-
-
 }
