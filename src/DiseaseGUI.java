@@ -87,30 +87,6 @@ public class DiseaseGUI extends JPanel implements ActionListener{
 			}
 		};
 		
-		listener = new ActionListener() {
-			public void actionPerformed(ActionEvent event) {
-				displayTimer.stop();
-				// advance the time'
-				theWorld.tick();
-				int infectionCount = theWorld.countInfections();
-				if (event.getActionCommand().equals("stop")) {
-					System.out.println("Simluation Stopping");
-					displayTimer.stop();
-				} else if (infectionCount <= 0) {
-					displayTimer.stop();
-					System.out.println("Simulation finished");
-				} else {
-					canvas.repaint();
-					System.out.println("time: " + World.getTime().getTime()
-							+ "number of infections: " + infectionCount);
-					displayTimer.restart();
-				}
-
-			}
-		};
-		
-	
-		
 		//making a smaller window for now
 		canvas.setPreferredSize(new Dimension(800,800));
 		
