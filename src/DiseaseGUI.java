@@ -176,6 +176,7 @@ public class DiseaseGUI extends JPanel implements ActionListener{
 		}
 		if (e.getActionCommand() == "start") {
 			displayTimer.start();
+			System.out.println("Simulation starting/re-starting");
 		}
 		if (e.getActionCommand().equals("stop")) {
 			
