@@ -1,3 +1,6 @@
+import java.awt.Color;
+import java.awt.Graphics;
+import java.awt.Rectangle;
 import java.util.Vector;
 
 /*
@@ -71,5 +74,10 @@ public class Mosquito extends Agent {
 			moveTo(levyFlight(getRow()),levyFlight(getColumn()));
 		}
 		
+	}
+	@Override
+	public void draw(Graphics g, Rectangle drawArea) {
+		g.setColor(new Color(255, 255, 153));
+		g.fillRect(drawArea.x, drawArea.y, 5, 5);
 	}
 }
