@@ -246,8 +246,22 @@ public class Environment {
 			g.fillRect(renderArea.x,renderArea.y,renderArea.width,renderArea.height);
 		}
 		
+		int x = renderArea.x; // x position
+		int y = renderArea.y; // y position
+		System.out.println(inhabitants.size());
 		for (Agent a : inhabitants) {
-			a.draw(g, renderArea);
+			a.draw(g, new Rectangle(x, y, 0, 0));
+			// going to assume each environment fits 3 inhabitants (18x18 approx.)
+			if (x < renderArea.x + 12) {
+				// move over 6 units for next inhabitant
+				// leaves a space for easy visualization
+				x += 6;
+			} else if (y < renderArea.y + 12) {
+				// move down a row
+				y += 6;
+				// start back at initial column
+				x = renderArea.x;
+			}
 		}
 	}
 	
