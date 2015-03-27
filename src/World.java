@@ -27,7 +27,7 @@ import java.util.Calendar;
  * maintains the time between simulation frames, and the current time within the model
  *
  */
-public class World {
+public class World implements Drawable {
 	private static Environment[][] lattice;
 	double timeStepSeconds;
 	private static Calendar currTime = Calendar.getInstance();
@@ -215,7 +215,7 @@ public class World {
 	 * @param g the graphics context
 	 * @param renderArea a rectangle within which to draw this location
 	 */
-	public void render(Graphics g, Rectangle renderArea)
+	public void draw(Graphics g, Rectangle renderArea)
 	{
 		g.setColor(Color.white);
 		g.fillRect(renderArea.x,renderArea.y,renderArea.width,renderArea.height);
@@ -226,7 +226,7 @@ public class World {
 		for(int row = 0; row< lattice.length; row++){
 			for(int column = 0; column < lattice[row].length; column++){
 				Rectangle locationRender = new Rectangle(column*locationWidth, row*locationHeight, locationWidth, locationHeight);
-				lattice[row][column].render(g, locationRender);
+				lattice[row][column].draw(g, locationRender);
 			}
 		}
 	}
