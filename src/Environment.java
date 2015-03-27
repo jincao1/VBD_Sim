@@ -28,7 +28,7 @@ import java.util.Vector;
  * and manages lists of agents entering and leaving
  * has an associated row, column, and mosquito density
  */
-public class Environment {
+public class Environment implements Drawable {
 	private Vector<Agent> inhabitants = new Vector<Agent>();
 	private Vector<Agent> entrantList = new Vector<Agent>();
 	private Vector<Agent> exitantList = new Vector<Agent>();
@@ -222,7 +222,7 @@ public class Environment {
 	 * @param g the graphics context
 	 * @param renderArea a rectangle within which to draw this location
 	 */
-	public void render(Graphics g, Rectangle renderArea)
+	public void draw(Graphics g, Rectangle renderArea)
 	{
 		//check if any infections
 		if(countInfections() > 0)
@@ -248,10 +248,9 @@ public class Environment {
 		
 		int x = renderArea.x; // x position
 		int y = renderArea.y; // y position
-		System.out.println(inhabitants.size());
 		for (Agent a : inhabitants) {
 			a.draw(g, new Rectangle(x, y, 0, 0));
-			// going to assume each environment fits 3 inhabitants (18x18 approx.)
+			// going to assume each environment fits 3 inhabitants per row (18x18 approx.)
 			if (x < renderArea.x + 12) {
 				// move over 6 units for next inhabitant
 				// leaves a space for easy visualization
