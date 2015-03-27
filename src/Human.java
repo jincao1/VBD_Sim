@@ -1,3 +1,6 @@
+import java.awt.Color;
+import java.awt.Graphics;
+import java.awt.Rectangle;
 import java.util.Calendar;
 
 
@@ -98,6 +101,12 @@ public class Human extends Agent {
 			}
 		}
 		
+	}
+
+	@Override
+	public void draw(Graphics g, Rectangle drawArea) {
+		g.setColor(new Color(255, 153, 255));
+		g.fillRect(drawArea.x, drawArea.y, 5, 5);
 	}
 	
 }
