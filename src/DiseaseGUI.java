@@ -82,7 +82,7 @@ public class DiseaseGUI extends JPanel implements ActionListener{
 			    setBounds(r);
 				//setPreferredSize(getMaximumSize());
 				setBackground(Color.white);
-				theWorld.render(g, r);
+				theWorld.draw(g, r);
 				
 			}
 		};
