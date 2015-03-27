@@ -18,6 +18,8 @@
  *	email: mareklaskowski@gmail.com							*
  ****************************************************************************************/
 
+import java.awt.Graphics;
+import java.awt.Rectangle;
 import java.util.Vector;
 /**
  * This is the base class for agents in the simulation 
@@ -26,7 +28,7 @@ import java.util.Vector;
  * An agent can have zero or more strains of a disease.
  *
  */
-public class Agent {
+abstract class Agent implements Drawable {
 	private static long NEXT_UID = 1;
 	/**
 	 * gets the next UID
@@ -237,5 +239,8 @@ public class Agent {
 		}
 		return count*displacement + startingPosition;
 	}
-
+	
+	public void draw(Graphics g, Rectangle drawArea){
+		
+	}
 }
