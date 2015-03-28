@@ -114,7 +114,7 @@ public class DiseaseGUI extends JPanel implements ActionListener{
 
 			}
 		};
-		displayTimer = new Timer(200, listener);
+		displayTimer = new Timer(1000, listener);
 		displayTimer.start();
 		c.gridy = 2;
 		add(reset, c);
