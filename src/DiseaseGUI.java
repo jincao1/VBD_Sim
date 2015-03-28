@@ -62,33 +62,16 @@ public class DiseaseGUI extends JPanel implements ActionListener{
 	 */
 	public DiseaseGUI(){
 		this.setLayout(new GridBagLayout());
-		theWorld = new World(50, 50, 3600.0, 0.5, 2);
+		theWorld = new World(50, 50, 3600.0, 0.5, 2, new Rectangle(0,0,800,800));
 		//add one or more infected agents
 		Environment groundZero = World.getRandomLocation();
 		Disease newInfection = new Disease("ACGT");
 		Human patientZero = new Human(groundZero.getRow(), groundZero.getColumn());
 		patientZero.recieveDisease(newInfection.getStrain());
 		groundZero.enter(patientZero);
-		
-		canvas = new Canvas(){
-			private static final long serialVersionUID = 1L;
 
-			//private Rectangle test = new Rectangle(50,50);
-			public void paint (Graphics g)
-			{
-			    //setBounds(20, 40, 300, 300);
-			    //Rectangle r = new Rectangle(getPreferredSize());
-				Rectangle r = new Rectangle(0,0,800,800);
-			    setBounds(r);
-				//setPreferredSize(getMaximumSize());
-				setBackground(Color.white);
-				theWorld.draw(g, r);
-				
-			}
-		};
-		
 		//making a smaller window for now
-		canvas.setPreferredSize(new Dimension(800,800));
+		theWorld.setPreferredSize(new Dimension(800,800));
 		
 		GridBagConstraints c = new GridBagConstraints();
 		c.fill = GridBagConstraints.HORIZONTAL;
@@ -98,7 +81,7 @@ public class DiseaseGUI extends JPanel implements ActionListener{
 		c.gridx = 0;
 		c.gridy = 0;
 		c.gridheight = 5;
-		add(canvas, c );
+		add(theWorld, c );
 		
 		c.weighty = 0;
 		c.weightx = 0.1;
@@ -123,7 +106,7 @@ public class DiseaseGUI extends JPanel implements ActionListener{
 					displayTimer.stop();
 					System.out.println("Simulation finished");
 				} else {
-					canvas.repaint();
+					theWorld.repaint();
 					System.out.println("time: " + World.getTime().getTime()
 							+ "number of infections: " + infectionCount);
 					displayTimer.restart();
