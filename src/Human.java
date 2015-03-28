@@ -106,7 +106,7 @@ public class Human extends Agent {
 	@Override
 	public void draw(Graphics g, Rectangle drawArea) {
 		g.setColor(new Color(255, 153, 255));
-		g.fillRect(drawArea.x, drawArea.y, 5, 5);
+		g.fillRect(drawArea.x, drawArea.y, 3, 3);
 	}
 	
 }

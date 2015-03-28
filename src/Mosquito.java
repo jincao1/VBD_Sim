@@ -78,6 +78,6 @@ public class Mosquito extends Agent {
 	@Override
 	public void draw(Graphics g, Rectangle drawArea) {
 		g.setColor(new Color(0, 0, 0));
-		g.fillRect(drawArea.x, drawArea.y, 5, 5);
+		g.fillRect(drawArea.x, drawArea.y, 3, 3);
 	}
 }
