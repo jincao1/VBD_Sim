@@ -22,6 +22,7 @@ import java.awt.Graphics;
 import java.awt.Rectangle;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.util.Calendar;
 import java.util.Vector;
 
 import javax.swing.JPanel;
@@ -261,7 +262,12 @@ public class Environment extends JPanel implements MouseListener {
 		}//otherwise set to white
 		else
 		{
-			g.setColor(Color.white);
+			if (World.getTime().get(Calendar.HOUR_OF_DAY) < 8) {
+				// gray environment for night
+				g.setColor(Color.GRAY);
+			} else {
+				g.setColor(Color.white);
+			}
 			g.fillRect(0,0,width,height);
 		}
 		// TODO fix this for paintComponents
