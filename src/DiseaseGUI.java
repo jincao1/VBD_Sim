@@ -91,7 +91,7 @@ public class DiseaseGUI extends JPanel implements ActionListener{
 		canvas.setPreferredSize(new Dimension(800,800));
 		
 		GridBagConstraints c = new GridBagConstraints();
-		c.fill = GridBagConstraints.HORIZONTAL;
+		c.fill = GridBagConstraints.BOTH;
 		c.anchor = GridBagConstraints.NORTHWEST;
 		c.weightx = 0.9;
 		c.weighty = 1;
