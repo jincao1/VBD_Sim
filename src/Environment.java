@@ -53,8 +53,6 @@ public class Environment extends JPanel implements MouseListener {
 		this.row = row;
 		this.column = col;
 		this.renderArea = renderArea;
-		this.setLayout(null);
-		this.setOpaque(true);
 		//make this component the size of the rectangle size it's given
 		this.setSize(renderArea.width,renderArea.height);
 		temp_mosquito = new Mosquito(row,col);
