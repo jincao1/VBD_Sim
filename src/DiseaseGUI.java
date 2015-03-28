@@ -45,8 +45,6 @@ import javax.swing.UnsupportedLookAndFeelException;
 public class DiseaseGUI extends JPanel implements ActionListener{
 	private static final long serialVersionUID = 8832885560545657000L;
 	
-	private static Canvas canvas;
-	
 	private static ActionListener listener = null;
 	private static Timer displayTimer = null;
 	
@@ -54,8 +52,6 @@ public class DiseaseGUI extends JPanel implements ActionListener{
 	
 	private JButton start = new JButton("START");
 	private JButton stop = new JButton("STOP");
-	private JButton reset = new JButton("RESET");
-	private JTextArea delay = new JTextArea();
 	
 	/**
 	 * default constructor
@@ -117,9 +113,9 @@ public class DiseaseGUI extends JPanel implements ActionListener{
 		displayTimer = new Timer(1000, listener);
 		displayTimer.start();
 		c.gridy = 2;
-		add(reset, c);
-		reset.setActionCommand("reset");
-		reset.addActionListener(this);
+//		add(reset, c);
+//		reset.setActionCommand("reset");
+//		reset.addActionListener(this);
 
 	}
 	
@@ -143,6 +139,7 @@ public class DiseaseGUI extends JPanel implements ActionListener{
 			System.out.println("Simluation Stopping");
 		}
 		if (e.getActionCommand().equals("reset")) {
+			// to be implemented
 			System.out.println("Resetting Simulation");
 		}
 	}
