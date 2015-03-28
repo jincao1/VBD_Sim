@@ -18,8 +18,6 @@
  *	email: mareklaskowski@gmail.com							*
  ****************************************************************************************/
 
-import java.awt.Graphics;
-import java.awt.Rectangle;
 import java.util.Vector;
 /**
  * This is the base class for agents in the simulation 
@@ -239,8 +237,5 @@ abstract class Agent implements Drawable {
 		}
 		return count*displacement + startingPosition;
 	}
-	
-	public void draw(Graphics g, Rectangle drawArea){
-		
-	}
+
 }
