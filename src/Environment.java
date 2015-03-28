@@ -248,18 +248,22 @@ public class Environment implements Drawable {
 		
 		int x = renderArea.x; // x position
 		int y = renderArea.y; // y position
+		
 		for (Agent a : inhabitants) {
 			a.draw(g, new Rectangle(x, y, 0, 0));
-			// going to assume each environment fits 3 inhabitants per row (18x18 approx.)
-			if (x < renderArea.x + 12) {
+			// draw as many as the environment can fit
+			if (x < renderArea.x + renderArea.width) {
 				// move over 6 units for next inhabitant
 				// leaves a space for easy visualization
-				x += 6;
-			} else if (y < renderArea.y + 12) {
+				x += 4;
+			} else if (y < renderArea.y + renderArea.height) {
 				// move down a row
-				y += 6;
+				y += 4;
 				// start back at initial column
 				x = renderArea.x;
+			} else {
+				// break loop if no more space left
+				break;
 			}
 		}
 	}
