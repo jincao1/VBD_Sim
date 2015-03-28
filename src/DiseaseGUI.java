@@ -74,7 +74,7 @@ public class DiseaseGUI extends JPanel implements ActionListener{
 		theWorld.setPreferredSize(new Dimension(800,800));
 		
 		GridBagConstraints c = new GridBagConstraints();
-		c.fill = GridBagConstraints.HORIZONTAL;
+		c.fill = GridBagConstraints.BOTH;
 		c.anchor = GridBagConstraints.NORTHWEST;
 		c.weightx = 0.9;
 		c.weighty = 1;
@@ -114,7 +114,7 @@ public class DiseaseGUI extends JPanel implements ActionListener{
 
 			}
 		};
-		displayTimer = new Timer(1000, listener);
+		displayTimer = new Timer(200, listener);
 		displayTimer.start();
 		c.gridy = 2;
 		add(reset, c);
