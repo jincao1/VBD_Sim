@@ -1,6 +1,7 @@
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Rectangle;
+import java.awt.event.MouseEvent;
 import java.util.Vector;
 
 /*
@@ -37,6 +38,8 @@ public class Mosquito extends Agent {
 		super(type, currRow, currCol);
 		//TODO: determine age at time of instantiation
 		age = Math.random() * lifespan_max;
+		this.addMouseListener(this);
+		this.setSize(3,3);
 	}
 	/*
 	 * @param deltaTime in seconds
@@ -76,8 +79,36 @@ public class Mosquito extends Agent {
 		
 	}
 	@Override
-	public void draw(Graphics g, Rectangle drawArea) {
+	public void paintComponent(Graphics g) {
+		super.paintComponent(g);
 		g.setColor(new Color(0, 0, 0));
-		g.fillRect(drawArea.x, drawArea.y, 3, 3);
+		g.fillRect(0, 0, getSize().width, getSize().height);
+		//disposing graphics when done
+		g.dispose();
+	}
+	
+	@Override
+	public void mouseClicked(MouseEvent e) {
+		// TODO Auto-generated method stub
+	}
+
+	@Override
+	public void mouseEntered(MouseEvent e) {
+		// TODO Auto-generated method stub
+	}
+
+	@Override
+	public void mouseExited(MouseEvent e) {
+		// TODO Auto-generated method stub
+	}
+
+	@Override
+	public void mousePressed(MouseEvent e) {
+		// TODO Auto-generated method stub
+	}
+
+	@Override
+	public void mouseReleased(MouseEvent e) {
+		// TODO Auto-generated method stub
 	}
 }

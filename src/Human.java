@@ -1,6 +1,7 @@
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Rectangle;
+import java.awt.event.MouseEvent;
 import java.util.Calendar;
 
 
@@ -42,11 +43,12 @@ public class Human extends Agent {
 	 * @param homeRow the human's home row
 	 * @param homeCol the human's home column
 	 */
-	public Human(int homeRow, int homeCol){
+	public Human(int homeRow, int homeCol) {
 		super(type, homeRow, homeCol);
 		this.homeRow = homeRow;
 		this.homeCol = homeCol;
-		
+		this.addMouseListener(this);
+		this.setSize(3,3);
 	}
 
 	/**
@@ -104,9 +106,36 @@ public class Human extends Agent {
 	}
 
 	@Override
-	public void draw(Graphics g, Rectangle drawArea) {
-		g.setColor(new Color(255, 153, 255));
-		g.fillRect(drawArea.x, drawArea.y, 3, 3);
+	public void paintComponent(Graphics g) {
+		super.paintComponent(g);
+		g.setColor(new Color(255,153,255));
+		g.fillRect(0, 0, getWidth(), getHeight());
+		// disposing graphics when done
+		g.dispose();
 	}
 	
+	@Override
+	public void mouseClicked(MouseEvent e) {
+		// TODO Auto-generated method stub
+	}
+
+	@Override
+	public void mouseEntered(MouseEvent e) {
+		// TODO Auto-generated method stub
+	}
+
+	@Override
+	public void mouseExited(MouseEvent e) {
+		// TODO Auto-generated method stub
+	}
+
+	@Override
+	public void mousePressed(MouseEvent e) {
+		// TODO Auto-generated method stub
+	}
+
+	@Override
+	public void mouseReleased(MouseEvent e) {
+		// TODO Auto-generated method stub
+	}
 }
