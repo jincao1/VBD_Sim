@@ -229,6 +229,7 @@ public class World extends JPanel {
 	 */
 	public void paintComponent(Graphics g)
 	{
+		super.paintComponent(g);
 		g.setColor(Color.white);
 		g.fillRect(renderArea.x,renderArea.y,renderArea.width,renderArea.height);
 	}
