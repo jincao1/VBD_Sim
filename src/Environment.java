@@ -20,7 +20,11 @@
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Rectangle;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.util.Vector;
+
+import javax.swing.JPanel;
 /**
  * 
  * a class that represents one location as part of a lattice
@@ -28,7 +32,8 @@ import java.util.Vector;
  * and manages lists of agents entering and leaving
  * has an associated row, column, and mosquito density
  */
-public class Environment implements Drawable {
+public class Environment extends JPanel implements MouseListener {
+	private static final long serialVersionUID = 1L;
 	private Vector<Agent> inhabitants = new Vector<Agent>();
 	private Vector<Agent> entrantList = new Vector<Agent>();
 	private Vector<Agent> exitantList = new Vector<Agent>();
@@ -36,17 +41,24 @@ public class Environment implements Drawable {
 	private int column;
 	private int row;
 	private Mosquito temp_mosquito;
+	private Rectangle renderArea; // rectangle for rendering specifics
 	/**
 	 * basic constructor
 	 * @param row the agent's initial row
 	 * @param col the agent's initial column
 	 * @param mosquitoDensity the mosquito density at this location
 	 */
-	public Environment(int row, int col, double mosquitoDensity){
+	public Environment(int row, int col, double mosquitoDensity, Rectangle renderArea){
 		this.mosquitoDensity = mosquitoDensity;
 		this.row = row;
 		this.column = col;
+		this.renderArea = renderArea;
+		this.setLayout(null);
+		this.setOpaque(true);
+		//make this component the size of the rectangle size it's given
+		this.setSize(renderArea.width,renderArea.height);
 		temp_mosquito = new Mosquito(row,col);
+		this.addMouseListener(this);
 	}
 	
 	/**
@@ -222,33 +234,34 @@ public class Environment implements Drawable {
 	 * @param g the graphics context
 	 * @param renderArea a rectangle within which to draw this location
 	 */
-	public void draw(Graphics g, Rectangle renderArea)
+	public void paintComponent(Graphics g)
 	{
 		//check if any infections
 		if(countInfections() > 0)
 		{
 			g.setColor(Color.red);
-			g.fillRect(renderArea.x,renderArea.y,renderArea.width,renderArea.height);
+			g.fillRect(0,0,renderArea.width,renderArea.height);
 		//then check if any susceptible
 		}else if(countSusceptible() > 0)
 		{
 			g.setColor(Color.green);
-			g.fillRect(renderArea.x,renderArea.y,renderArea.width,renderArea.height);
+			g.fillRect(0,0,renderArea.width,renderArea.height);
 		//then check for any recovered
 		}else if(countRecovered() > 0)
 		{
 			g.setColor(Color.blue);
-			g.fillRect(renderArea.x,renderArea.y,renderArea.width,renderArea.height);
+			g.fillRect(0,0,renderArea.width,renderArea.height);
 		}//otherwise set to white
 		else
 		{
 			g.setColor(Color.white);
-			g.fillRect(renderArea.x,renderArea.y,renderArea.width,renderArea.height);
+			g.fillRect(0,0,renderArea.width,renderArea.height);
 		}
 		
-		int x = renderArea.x; // x position
-		int y = renderArea.y; // y position
+		int x = 0; // x position
+		int y = 0; // y position
 		
+		// TODO fix this for paintComponents
 		for (Agent a : inhabitants) {
 			a.draw(g, new Rectangle(x, y, 0, 0));
 			// draw as many as the environment can fit
@@ -266,6 +279,36 @@ public class Environment implements Drawable {
 				break;
 			}
 		}
+	}
+
+	@Override
+	public void mouseClicked(MouseEvent e) {
+		// TODO Auto-generated method stub
+		System.out.println("clicked");
+	}
+
+	@Override
+	public void mouseEntered(MouseEvent e) {
+		// TODO Auto-generated method stub
+		System.out.println("entered");
+	}
+
+	@Override
+	public void mouseExited(MouseEvent e) {
+		// TODO Auto-generated method stub
+		System.out.println("exited");
+	}
+
+	@Override
+	public void mousePressed(MouseEvent e) {
+		// TODO Auto-generated method stub
+		System.out.println("pressed");
+	}
+
+	@Override
+	public void mouseReleased(MouseEvent e) {
+		// TODO Auto-generated method stub
+		System.out.println("released");
 	}
 	
 }
