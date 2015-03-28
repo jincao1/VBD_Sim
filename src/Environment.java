@@ -279,7 +279,7 @@ public class Environment extends JPanel implements MouseListener {
 			a.setLocation(x,y);
 			if (x < getWidth() ) {
 				x += 4;
-			} else if (y > getHeight()) {
+			} else if (y < getHeight()) {
 				y += 4;
 				x = 0;
 			}
