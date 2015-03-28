@@ -18,7 +18,11 @@
  *	email: mareklaskowski@gmail.com							*
  ****************************************************************************************/
 
+import java.awt.Graphics;
+import java.awt.event.MouseListener;
 import java.util.Vector;
+
+import javax.swing.JPanel;
 /**
  * This is the base class for agents in the simulation 
  * has a unique ID (UID), maintains the current row and column in the environment lattice
@@ -26,7 +30,7 @@ import java.util.Vector;
  * An agent can have zero or more strains of a disease.
  *
  */
-abstract class Agent implements Drawable {
+abstract class Agent extends JPanel implements MouseListener {
 	private static long NEXT_UID = 1;
 	/**
 	 * gets the next UID
@@ -238,4 +242,8 @@ abstract class Agent implements Drawable {
 		return count*displacement + startingPosition;
 	}
 
+	@Override
+	public void paintComponent(Graphics g) {
+		super.paintComponent(g);
+	}
 }
