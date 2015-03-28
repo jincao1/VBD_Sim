@@ -82,7 +82,7 @@ public class Mosquito extends Agent {
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);
 		g.setColor(new Color(0, 0, 0));
-		g.fillRect(0, 0, getSize().width, getSize().height);
+		g.fillRect(0, 0, getWidth(), getHeight());
 		//disposing graphics when done
 		g.dispose();
 	}
