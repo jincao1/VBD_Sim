@@ -231,11 +231,6 @@ public class World extends JPanel {
 	{
 		g.setColor(Color.white);
 		g.fillRect(renderArea.x,renderArea.y,renderArea.width,renderArea.height);
-		for (Environment[] i : lattice) {
-			for (Environment j : i) {
-				j.repaint();
-			}
-		}
 	}
 	
 }
