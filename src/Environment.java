@@ -41,20 +41,26 @@ public class Environment extends JPanel implements MouseListener {
 	private int column;
 	private int row;
 	private Mosquito temp_mosquito;
-	private Rectangle renderArea; // rectangle for rendering specifics
+	
+	//width and height of this environment
+	private int width;
+	private int height; 
 	/**
 	 * basic constructor
 	 * @param row the agent's initial row
 	 * @param col the agent's initial column
 	 * @param mosquitoDensity the mosquito density at this location
+	 * @param width the width of the environment
+	 * @param height the height of the environment
 	 */
-	public Environment(int row, int col, double mosquitoDensity, Rectangle renderArea){
+	public Environment(int row, int col, double mosquitoDensity, int width, int height){
 		this.mosquitoDensity = mosquitoDensity;
 		this.row = row;
 		this.column = col;
-		this.renderArea = renderArea;
+		this.width = width;
+		this.height = height;
 		//make this component the size of the rectangle size it's given
-		this.setSize(renderArea.width,renderArea.height);
+		this.setSize(width, height);
 		temp_mosquito = new Mosquito(row,col);
 		this.addMouseListener(this);
 	}
@@ -230,83 +236,78 @@ public class Environment extends JPanel implements MouseListener {
 	/**
 	 * draw this lattice location within the given render area on the provided graphics context
 	 * @param g the graphics context
-	 * @param renderArea a rectangle within which to draw this location
 	 */
+	@Override
 	public void paintComponent(Graphics g)
 	{
+		super.paintComponent(g);
+		// call updateInhabitants
+		updateInhabitants();
 		//check if any infections
 		if(countInfections() > 0)
 		{
 			g.setColor(Color.red);
-			g.fillRect(0,0,renderArea.width,renderArea.height);
+			g.fillRect(0,0,width, height);
 		//then check if any susceptible
 		}else if(countSusceptible() > 0)
 		{
 			g.setColor(Color.green);
-			g.fillRect(0,0,renderArea.width,renderArea.height);
+			g.fillRect(0,0, width, height);
 		//then check for any recovered
 		}else if(countRecovered() > 0)
 		{
 			g.setColor(Color.blue);
-			g.fillRect(0,0,renderArea.width,renderArea.height);
+			g.fillRect(0,0,width,height);
 		}//otherwise set to white
 		else
 		{
 			g.setColor(Color.white);
-			g.fillRect(0,0,renderArea.width,renderArea.height);
+			g.fillRect(0,0,width,height);
 		}
-		
-		int x = 0; // x position
-		int y = 0; // y position
-		
 		// TODO fix this for paintComponents
+	}
+
+	/**
+	 * updates the inhabitants in each environment
+	 */
+	public void updateInhabitants() {
+		this.removeAll(); //remove previous inhabitants
+		int x = 0;
+		int y = 0;
 		for (Agent a : inhabitants) {
-			a.draw(g, new Rectangle(x, y, 0, 0));
-			// draw as many as the environment can fit
-			if (x < renderArea.x + renderArea.width) {
-				// move over 6 units for next inhabitant
-				// leaves a space for easy visualization
+			this.add(a);
+			a.setLocation(x,y);
+			if (x < getWidth() ) {
 				x += 4;
-			} else if (y < renderArea.y + renderArea.height) {
-				// move down a row
+			} else if (y > getHeight()) {
 				y += 4;
-				// start back at initial column
-				x = renderArea.x;
-			} else {
-				// break loop if no more space left
-				break;
+				x = 0;
 			}
 		}
 	}
-
 	@Override
 	public void mouseClicked(MouseEvent e) {
 		// TODO Auto-generated method stub
-		System.out.println("clicked");
 	}
 
 	@Override
 	public void mouseEntered(MouseEvent e) {
 		// TODO Auto-generated method stub
-		System.out.println("entered");
 	}
 
 	@Override
 	public void mouseExited(MouseEvent e) {
 		// TODO Auto-generated method stub
-		System.out.println("exited");
 	}
 
 	@Override
 	public void mousePressed(MouseEvent e) {
 		// TODO Auto-generated method stub
-		System.out.println("pressed");
 	}
 
 	@Override
 	public void mouseReleased(MouseEvent e) {
 		// TODO Auto-generated method stub
-		System.out.println("released");
 	}
 	
 }
