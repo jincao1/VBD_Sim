@@ -3,6 +3,8 @@ import java.awt.Graphics;
 import java.awt.Rectangle;
 import java.util.Calendar;
 
+import javax.swing.JPanel;
+
 /*
  *	This file is part of DiseaseSim version 0.3 -  an agent based modeling research tool	*
  *	Copyright (C) 2012 Marek Laskowski				*
@@ -27,11 +29,11 @@ import java.util.Calendar;
  * maintains the time between simulation frames, and the current time within the model
  *
  */
-public class World implements Drawable {
+public class World extends JPanel {
 	private static Environment[][] lattice;
 	double timeStepSeconds;
 	private static Calendar currTime = Calendar.getInstance();
-	
+	private Rectangle renderArea;
 	/**
 	 * 
 	 * @return the current model time
@@ -102,14 +104,24 @@ public class World implements Drawable {
 	 * @param averageMosquitoDensity a number representing the mosquito density in the environment
 	 * @param averageHumanDensity a number representing the human density in the environment
 	 */
-	public World(int rows, int cols, double timeStepSeconds, double averageMosquitoDensity, double averageHumanDensity){
+	public World(int rows, int cols, double timeStepSeconds, double averageMosquitoDensity, double averageHumanDensity, Rectangle renderArea){
+		this.setLayout(null);
+		this.setBounds(0,0, rows, cols);
 		this.timeStepSeconds = timeStepSeconds;
-		
+		this.renderArea = renderArea;
 		lattice = new Environment[rows][cols];
 		
 		for(int i = 0; i< rows; i++){
 			for(int j = 0; j < cols; j++){
-				lattice[i][j] = new Environment(i,j,averageMosquitoDensity);
+				int locationWidth = renderArea.width / getColumns();
+				int locationHeight = renderArea.height / getRows();
+				Rectangle locationRender = new Rectangle(i*locationWidth, j*locationHeight, locationWidth, locationHeight);
+				lattice[i][j] = new Environment(i,j,averageMosquitoDensity, locationRender);
+				// add each environment onto the world
+				this.add(lattice[i][j]);
+				// set the location of each environment
+				lattice[i][j].setLocation(i*locationWidth,j*locationHeight);
+				
 				for(int numHumans = samplePoisson(averageHumanDensity); numHumans > 0; numHumans--)
 				{
 					Human resident = new Human(i,j);
@@ -215,18 +227,13 @@ public class World implements Drawable {
 	 * @param g the graphics context
 	 * @param renderArea a rectangle within which to draw this location
 	 */
-	public void draw(Graphics g, Rectangle renderArea)
+	public void paintComponent(Graphics g)
 	{
 		g.setColor(Color.white);
 		g.fillRect(renderArea.x,renderArea.y,renderArea.width,renderArea.height);
-		g.setColor(Color.black);
-		//now divide up render area into equal parts for each Environment location
-		int locationWidth = renderArea.width / getColumns();
-		int locationHeight = renderArea.height / getRows();
-		for(int row = 0; row< lattice.length; row++){
-			for(int column = 0; column < lattice[row].length; column++){
-				Rectangle locationRender = new Rectangle(column*locationWidth, row*locationHeight, locationWidth, locationHeight);
-				lattice[row][column].draw(g, locationRender);
+		for (Environment[] i : lattice) {
+			for (Environment j : i) {
+				j.repaint();
 			}
 		}
 	}
