@@ -33,7 +33,8 @@ public class World extends JPanel {
 	private static Environment[][] lattice;
 	double timeStepSeconds;
 	private static Calendar currTime = Calendar.getInstance();
-	private Rectangle renderArea;
+	// need to specify a renderArea for how big the world is
+	Rectangle renderArea; // constructor needs to take one more argument now
 	/**
 	 * 
 	 * @return the current model time
@@ -116,12 +117,11 @@ public class World extends JPanel {
 				int locationWidth = renderArea.width / getColumns();
 				int locationHeight = renderArea.height / getRows();
 				Rectangle locationRender = new Rectangle(i*locationWidth, j*locationHeight, locationWidth, locationHeight);
-				lattice[i][j] = new Environment(i,j,averageMosquitoDensity, locationRender);
-				// add each environment onto the world
+				lattice[i][j] = new Environment(i,j,averageMosquitoDensity, locationRender.width, locationRender.height);
+				// add each environment into this JPanel
 				this.add(lattice[i][j]);
-				// set the location of each environment
+				// set the location for the environments
 				lattice[i][j].setLocation(i*locationWidth,j*locationHeight);
-				
 				for(int numHumans = samplePoisson(averageHumanDensity); numHumans > 0; numHumans--)
 				{
 					Human resident = new Human(i,j);
